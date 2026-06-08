@@ -306,6 +306,38 @@ Search: `Batin` → pilih: **"RS Umum Daerah Batin Mangunang"**
 ### 👤 Permintaan yang benar (contoh — RSUD Batin Mangunang):
 Search: `SIMRS` → pilih: **"Instalasi SIMRS (IT)"**
 
+<details>
+<summary>📋 Daftar lengkap 25 opsi Permintaan (klik expand)</summary>
+
+| Search Term | Full Name | Kategori |
+|-------------|-----------|----------|
+| SIMRS | Instalasi SIMRS (IT) | IT |
+| Casemix | Casemix | Medis |
+| IGD | IGD | Medis |
+| Rawat | Rawat Jalan / Rawat Inap | Medis |
+| Farmasi | Farmasi | Penunjang |
+| Kasir | Kasir | Keuangan |
+| Pendaftaran | Pendaftaran | Admin |
+| Radiologi | Radiologi | Penunjang |
+| Rekam | Rekam Medis | Penunjang |
+| Management | Management | Manajemen |
+| Dokter | Dokter | Medis |
+| Fisioterapi | Fisioterapi | Penunjang |
+| Laboratorium | Laboratorium | Penunjang |
+| Gizi | Gizi | Penunjang |
+| Perawat | Petugas (Perawat) | Medis |
+| Keuangan | Keuangan | Keuangan |
+| Inventori | Inventori Obat | Logistik |
+| Gudang | Gudang Barang | Logistik |
+| CEO | CEO (Tri Wahyudi) | C-Level |
+| CTO | CTO (Jiwana Syah Putra) | C-Level |
+| COO | COO (Ade Rahman) | C-Level |
+| Leader | Leader (T. Nopriansyah) | Lead |
+| CMO | CMO (Irhash) | C-Level |
+| CFO | CFO (Iqbal Yusuf) | C-Level |
+
+</details>
+
 > ⚠️ Nilai ini **berbeda tiap RS**. Agent harus eksplorasi dropdown atau baca `.env` untuk RS lain.
 
 ---
