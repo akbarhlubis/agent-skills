@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "Clinical Workflow UX Audit"
+  short_description: "Audit UX for legacy hospital workflows"
+  default_prompt: "Use $clinical-workflow-ux-audit to audit this clinical workflow UX, identify operator friction, and propose low-risk improvements."
+
+policy:
+  allow_implicit_invocation: true

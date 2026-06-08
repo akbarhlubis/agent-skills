@@ -1,0 +1,9 @@
+# Ignore real credentials
+.env
+credentials.json
+*.secret
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
