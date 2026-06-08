@@ -20,11 +20,53 @@ Format:
 ```
 EKNERJA_EMAIL=xxx@gmail.com
 EKNERJA_PASSWORD=xxx
+
+# Hospital-specific (opsional, sesuaikan RS masing-masing)
+EKNERJA_RS_SEARCH=Batin
+EKNERJA_RS_NAME=RS Umum Daerah Batin Mangunang
+EKNERJA_PERMINTAAN_SEARCH=SIMRS
+EKNERJA_PERMINTAAN_NAME=Instalasi SIMRS (IT)
 ```
 
 File ini **gitignored** (tidak akan pernah masuk repo). Agent wajib membaca file ini untuk mendapatkan credentials.
 
 Jika file `.env` tidak ditemukan, **tanya user** untuk email & password, lalu simpan ke file tersebut.
+
+### Cara menemukan nilai RS & Permintaan untuk RS lain
+
+Kalau teman dari RS lain mau pakai skill ini:
+1. Buka `https://ekinerja.paperlesshospital.id/request-task/create`
+2. Ketik partial name RS di field autocomplete, lihat hasil dropdown
+3. Catat **search term** (yang diketik) dan **full name** (yang muncul)
+4. Ulangi untuk field Permintaan (User/Instalasi)
+5. Simpan di `.env` masing-masing
+
+### ⚠️ Permintaan (User/Instalasi) — KONTEKS DINAMIS
+
+Isi dropdown Permintaan **berbeda tiap RS** — tergantung instalasi/unit yang terdaftar. Agent HARUS eksplorasi dulu:
+
+```js
+// Step: Cek isi dropdown Permintaan
+evaluate → new Promise(resolve => {
+  function setNativeValue(el, value) {
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set;
+    setter?.call(el, value);
+    el.dispatchEvent(new Event('input', {bubbles: true}));
+  }
+  const input = document.getElementById('id_permintaan');
+  input.focus();
+  setNativeValue(input, '');  // kosongkan — trigger semua opsi
+  setTimeout(() => {
+    const items = Array.from(document.querySelectorAll('ul.absolute.z-50 li'))
+      .map(li => li.innerText.trim());
+    resolve(JSON.stringify(items));
+  }, 1500);
+})
+```
+
+Dari hasil eksplorasi, agent bisa mencatat search term yang valid. Simpan di `.env` kalau sudah fix.
+
+Kalau `.env` cuma ada EMAIL & PASSWORD (tanpa config RS/Permintaan), agent WAJIB eksplorasi dropdown dulu sebelum create task — jangan asal isi.
 
 ---
 
@@ -258,11 +300,13 @@ item.dispatchEvent(new MouseEvent('click', {bubbles: true}));
 - Tanpa `mousedown` + `mouseup` sebelum `click`
 - Tanpa `new Promise` + `setTimeout` untuk tunggu dropdown
 
-### 🏥 RS yang benar:
+### 🏥 RS yang benar (contoh — RSUD Batin Mangunang):
 Search: `Batin` → pilih: **"RS Umum Daerah Batin Mangunang"**
 
-### 👤 Permintaan yang benar:
+### 👤 Permintaan yang benar (contoh — RSUD Batin Mangunang):
 Search: `SIMRS` → pilih: **"Instalasi SIMRS (IT)"**
+
+> ⚠️ Nilai ini **berbeda tiap RS**. Agent harus eksplorasi dropdown atau baca `.env` untuk RS lain.
 
 ---
 
