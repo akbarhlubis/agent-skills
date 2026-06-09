@@ -625,6 +625,25 @@ evaluate → (() => {
 5. **Sequential tetap berlaku** — jangan parallel navigate + evaluate ke halaman berbeda.
 6. **Login di awal sesi** — selalu cek apakah sudah di dashboard atau perlu login ulang.
 
+### ⚠️ BEFORE CREATE TASK — WAJIB KONFIRMASI
+
+> Sebelum klik "Buat Request Task", **WAJIB** tampilkan ringkasan ke user:
+> ```
+> Task  : [nama task]
+> Status: [Fixing/Update/New Dev/...]
+> Bobot : [mudah/sedang/sulit]
+> Tgl   : [YYYY-MM-DD]
+> Durasi: [N] hari
+> ```
+> Tunggu user konfirmasi sebelum submit!
+> Jangan asal submit — cek tanggal hari ini dulu, jangan asumsi.
+
+### ⚠️ AFTER EDIT — WAJIB VERIFIKASI
+
+> Setelah edit task, selalu verifikasi perubahan tersimpan:
+> 1. `evaluate` cek nilai field yang diubah
+> 2. Atau navigasi ke list dan cek ulang
+
 ---
 
 ## GitLab Integration — Cross-Reference Pengerjaan
