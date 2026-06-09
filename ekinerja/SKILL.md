@@ -629,5 +629,58 @@ evaluate → (() => {
 
 ## GitLab Integration — Cross-Reference Pengerjaan
 
-Sama seperti sebelumnya. Lihat section GitLab Integration di skill versi lengkap.
+### Branches yang harus dicek
+
+> ⚠️ JANGAN cuma cek `develop`! Cek **kedua** branch ini:
+> 1. `develop` — branch utama
+> 2. `develop_gabungcode` — branch penggabungan (sering ada commit tambahan)
+
+### Step 1: Ambil data E-Kinerja
+```
+navigate → https://ekinerja.paperlesshospital.id/request-task
+// Ambil task + filter: status=approved + progress=pending
+// Cek page 2 juga kalau perlu
+```
+
+### Step 2: Ambil data GitLab (via MCP GitLab)
+```js
+// User = alubis87 (ID 36), project = rsud-batin-mangunang-lampung (ID 43)
+// Cek KEDUA branch:
+mcp_server_gitlab_list_commits → project_id=43, ref_name=develop, per_page=20
+mcp_server_gitlab_list_commits → project_id=43, ref_name=develop_gabungcode, per_page=20
+
+// Filter: author_name = "Akbar Hamonangan Lubis" (hanya commit user sendiri)
+// Abaikan commit oleh author lain (Bim, dll)
+```
+
+### Step 3: Matching — cocokkan keyword
+
+Cocokkan **kata kunci** dari nama task dengan commit message:
+- "tindakan" ↔ "Tindakan"
+- "obat" / "resep" ↔ "medication" / "obat" / "resep"
+- "antrian" / "MJKN" ↔ "booking" / "estimation"
+- "amprahan" ↔ "amprahan" / "retur"
+- "dokter" ↔ "dokter"
+
+### Step 4: Update hanya task APPROVED + Pending
+
+> ⚠️ **HANYA update task yang status=approved + progress=pending**
+> Jangan sentuh task yang belum approved!
+
+### 🔗 WAJIB: Link Commit Full URL
+
+> ⚠️ **Developer task HARUS pakai full GitLab URL di keterangan!**
+> JANGAN cuma commit SHA pendek (a47bb408). HARUS full URL:
+> `https://git.paperlesshospital.id/paperless/simrs/rsud-batin-mangunang-lampung/-/commit/a47bb4088ea73dbabadd8e14ef590ce5fa1a6383`
+>
+> Kalau multi-commit: pisahkan dengan newline, satu URL per baris.
+
+### Identitas GitLab
+| Field | Value |
+|-------|-------|
+| GitLab URL | https://git.paperlesshospital.id |
+| Username | `alubis87` |
+| User ID | 36 |
+| Project | `paperless/simrs/rsud-batin-mangunang-lampung` (ID 43) |
+| Branches | `develop`, `develop_gabungcode` |
 
