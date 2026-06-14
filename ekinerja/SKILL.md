@@ -640,9 +640,29 @@ evaluate → (() => {
 
 ### ⚠️ AFTER EDIT — WAJIB VERIFIKASI
 
-> Setelah edit task, selalu verifikasi perubahan tersimpan:
-> 1. `evaluate` cek nilai field yang diubah
-> 2. Atau navigasi ke list dan cek ulang
+> Setelah edit task, **WAJIB** verifikasi perubahan tersimpan:
+
+```js
+// Step 1: Edit field
+navigate → /request-task/{ID}/edit
+evaluate → setNativeValue(document.getElementById('tgl_target_mulai'), '2026-06-12');
+
+// Step 2: Klik "Simpan Perubahan" (BUKAN "Perbarui"!)
+evaluate → (() => {
+  const btn = Array.from(document.querySelectorAll('button'))
+    .find(b => b.innerText.includes('Simpan Perubahan'));
+  if (btn) btn.click();
+})()
+
+// Step 3: 🔴 WAJIB — verifikasi dari list!
+navigate → /request-task
+evaluate → cek kolom tgl target — harus berubah sesuai edit
+```
+
+> ⚠️ **JANGAN percaya hasil edit tanpa verifikasi!**
+> Dua kali kejadian edit gak ke-save karena gak diverifikasi.
+> Pattern: ganti tanggal → klik "Simpan Perubahan" → langsung cek list.
+> Test dengan nilai berbeda (bukan nilai awal) untuk memastikan perubahan terjadi.
 
 ---
 
