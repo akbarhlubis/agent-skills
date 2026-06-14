@@ -16,6 +16,7 @@ Kumpulan skills untuk AI coding agent (Zed, Codex, Cursor, dll). Setiap skill be
 | `frontend-ui-engineering` | Build production-quality UI components |
 | `planning-and-task-breakdown` | Breakdown pekerjaan menjadi task terurut |
 | `security-and-hardening` | Hardening keamanan (input, auth, storage) |
+| `hypothesis-driven-testing` | Scientific method for debugging — design test, verify, analyze root cause |
 | `simrs-reference-auditor` | Audit implementasi SIMRS vs referensi upstream |
 
 ## 🚀 Cara Pakai
