@@ -122,6 +122,89 @@ evaluate → JSON.stringify({
 })
 ```
 
+## Real-World Examples from Agent-Human Collaboration
+
+Ini bukan teori — ini pola yang terjadi natural di percakapan sehari-hari antara user dan agent.
+
+### 1. "Tool A vs Tool B — mana yang lebih bagus?"
+
+```
+OBSERVE: Browser MCP sering timeout
+HYPOTHESIZE: Chrome DevTools MCP lebih stabil?
+TEST: Switch ke navigate + evaluate
+VERIFY: 10x operasi tanpa timeout
+CONCLUSION: Migrasi permanen ke Chrome DevTools MCP
+```
+
+### 2. "Ini gak respon — kenapa ya?"
+
+```
+OBSERVE: Autocomplete dropdown muncul tapi klik item gagal
+HYPOTHESIZE 1: React state butuh event khusus?
+TEST: .click() → GAGAL
+
+HYPOTHESIZE 2: MouseEvent chain?
+TEST: mousedown + mouseup + click → BERHASIL
+CONCLUSION: React combobox butuh MouseEvent, bukan click biasa
+```
+
+### 3. "Data gak ketemu — di mana ya?"
+
+```
+OBSERVE: Cross-reference GitLab ↔ E-Kinerja kosong
+HYPOTHESIZE: Ada di branch lain?
+TEST: Cek develop_gabungcode (bukan cuma develop)
+VERIFY: 3 commit match ketemu
+CONCLUSION: Skill perlu cek 2 branch, bukan 1
+```
+
+### 4. "Fitur gagal — ada constraint?"
+
+```
+OBSERVE: Check-out absensi gagal
+HYPOTHESIZE 1: GPS tidak tersedia di browser otomatis?
+TEST: Cek error → "Akses lokasi ditolak" → CONFIRMED
+
+HYPOTHESIZE 2: Bisa override geolocation API?
+TEST: navigator.geolocation.getCurrentPosition = mock
+VERIFY: Check-out tanpa error lokasi
+CONCLUSION: GPS mock works, tapi 8 jam rule masih berlaku
+```
+
+### 5. "Search term gak match — apa yang salah?"
+
+```
+OBSERVE: "RSUD Batin Mangunang" tidak muncul di autocomplete
+HYPOTHESIZE: Search terlalu panjang?
+TEST 1: "RSUD Batin Mangunang" → GAGAL
+TEST 2: "Batin" → "RS Umum Daerah Batin Mangunang" muncul → BERHASIL
+CONCLUSION: Autocomplete partial match, selalu pakai term pendek
+```
+
+### 6. "Button gak nemu — apa nama sebenarnya?"
+
+```
+OBSERVE: Edit form klik "Perbarui"/"Update" tidak menyimpan
+HYPOTHESIZE: Nama button sebenarnya bukan itu?
+TEST: Eksplorasi semua button di DOM → "Simpan Perubahan"
+FIX: Ganti selector ke "Simpan Perubahan"
+VERIFY: Ubah tanggal test (12→13) → cek list → 13 muncul
+```
+
+### 🎯 The Meta Pattern
+
+Semua use case diatas punya struktur yang sama:
+
+```
+Kamu:    "Coba [something new]"          ← HYPOTHESIZE
+Agent:   execute                          ← TEST
+Kamu:    "Coba cek"                       ← VERIFY  
+Kamu:    "Kenapa bisa gitu ya?"           ← ANALYZE
+Kamu:    "Update skill"                   ← DOCUMENT
+```
+
+> **Skill ini menamai apa yang sudah kita lakukan.** Bedanya: sekarang agent bisa switch ke hypothesis mode secara proactive, tanpa user yang selalu trigger.
+
 ## When Hypothesis Fails
 
 ```
